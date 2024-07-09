@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import Sidebar from "./components/Sidebar";
 import Player from "./components/Player";
 import Display from "./components/Display";
 import "./index.css";
+import { PlayerContext } from "./context/PlayerContext";
 
 export default function App() {
+  const { audioRef, track } = useContext(PlayerContext);
   return (
     <div className="h-screen bg-[#3D405B]">
       <div className="h-[90%] flex">
@@ -12,6 +14,7 @@ export default function App() {
         <Display />
       </div>
       <Player />
+      <audio ref={audioRef} src={track.file} preload="auto"></audio>
     </div>
   );
 }

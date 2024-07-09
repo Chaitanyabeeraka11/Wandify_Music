@@ -6,6 +6,7 @@ import { albumsData, songsData } from "../Assets/assets";
 export default function DisplayAlbum() {
   const { id } = useParams();
   const album = albumsData[id];
+
   return (
     <>
       <NavBar />
@@ -26,7 +27,7 @@ export default function DisplayAlbum() {
       {songsData.map((item, index) => (
         <div
           key={index}
-          className="grid grid-col-3 sm-grid-col-4 gap-2 p-2 items-center text-[#3D405B] hover:bg-[#986F51] cursor-pointer"
+          className="grid grid-cols-3 sm:grid-cols-4 gap-2 p-2 items-center text-[#3D405B] hover:bg-[#986F51] cursor-pointer"
         >
           <p className="text-[#3D405B]">
             <b className="mr-4 text-[#3D405B]">{index + 1}</b>
@@ -37,7 +38,7 @@ export default function DisplayAlbum() {
             />
             {item.name}
           </p>
-          <p className="text-[16px]">{albumsData.name}</p>
+          <p className="text-[16px]">{album.name}</p>
         </div>
       ))}
     </>

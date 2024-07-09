@@ -1,17 +1,21 @@
-import React from "react";
-import { assets, songsData } from "../Assets/assets";
+import React, { useContext } from "react";
+import { assets } from "../Assets/assets";
+import { PlayerContext } from "../context/PlayerContext";
 
 export default function Player() {
+  const { seekBarRef, seekBgRef, playStatus, play, pause, track } =
+    useContext(PlayerContext);
+
   return (
     <div className="h-[10%] bg-[#7f5539] flex justify-between items-center text-[#3d405b] rounded-3xl ml-2 mr-2 mb-2">
       <div className="hidden lg:flex items-center gap-4">
         <img
           className="w-14 ml-4 rounded-xl shadow-lg"
-          src={songsData[0].image}
+          src={track.image}
           alt="song_image"
         />
         <div>
-          <p className="text-white font-bold">{songsData[0].name}</p>
+          <p className="text-white font-bold">{track.name}</p>
         </div>
       </div>
       <div className="flex flex-col items-center gap-1 m-auto">
@@ -24,28 +28,44 @@ export default function Player() {
           <img
             className="w-4 cursor-pointer"
             src={assets.prev_icon}
-            alt="shuffle_icon"
+            alt="prev_icon"
           />
-          <img
-            className="w-4 cursor-pointer"
-            src={assets.play_icon}
-            alt="shuffle_icon"
-          />
+          {playStatus ? (
+            <img
+              onClick={pause}
+              className="w-4 cursor-pointer"
+              src={assets.pause_icon}
+              alt="pause_icon"
+            />
+          ) : (
+            <img
+              onClick={play}
+              className="w-4 cursor-pointer"
+              src={assets.play_icon}
+              alt="play_icon"
+            />
+          )}
           <img
             className="w-4 cursor-pointer"
             src={assets.next_icon}
-            alt="shuffle_icon"
+            alt="next_icon"
           />
           <img
             className="w-4 cursor-pointer"
             src={assets.loop_icon}
-            alt="shuffle_icon"
+            alt="loop_icon"
           />
         </div>
         <div className="flex items-center gap-5">
           <p className="text-white">0:00</p>
-          <div className="w-[60vw] max-w-[500px] bg-[#3D405B] rounded-full cursor-pointer">
-            <hr className="h-1 border-none w-0 bg-white rounded-full" />
+          <div
+            ref={seekBgRef}
+            className="w-[60vw] max-w-[500px] bg-[#3D405B] rounded-full cursor-pointer"
+          >
+            <hr
+              ref={seekBarRef}
+              className="h-1 border-none w-0 bg-white rounded-full"
+            />
           </div>
           <p className="text-white">3:00</p>
         </div>
