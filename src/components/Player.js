@@ -3,7 +3,7 @@ import { assets } from "../Assets/assets";
 import { PlayerContext } from "../context/PlayerContext";
 
 export default function Player() {
-  const { seekBarRef, seekBgRef, playStatus, play, pause, track } =
+  const { seekBarRef, seekBgRef, playStatus, play, pause, track, time } =
     useContext(PlayerContext);
 
   return (
@@ -57,7 +57,10 @@ export default function Player() {
           />
         </div>
         <div className="flex items-center gap-5">
-          <p className="text-white">0:00</p>
+          <p className="text-white">
+            {time?.currentTime?.minute ?? "00"}:
+            {time?.currentTime?.second ?? "00"}
+          </p>
           <div
             ref={seekBgRef}
             className="w-[60vw] max-w-[500px] bg-[#3D405B] rounded-full cursor-pointer"
@@ -67,7 +70,9 @@ export default function Player() {
               className="h-1 border-none w-0 bg-white rounded-full"
             />
           </div>
-          <p className="text-white">3:00</p>
+          <p className="text-white">
+            {time?.totalTime?.minute ?? "0"}:{time?.totalTime?.second ?? "00"}
+          </p>
         </div>
       </div>
     </div>

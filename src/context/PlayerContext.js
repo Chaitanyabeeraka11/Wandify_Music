@@ -15,7 +15,7 @@ const PlayerContextProvider = (props) => {
       second: 0,
       minute: 0,
     },
-    totalDuration: {
+    totalTime: {
       second: 0,
       minute: 0,
     },
@@ -29,7 +29,7 @@ const PlayerContextProvider = (props) => {
     const setAudioData = () => {
       setTime((prevTime) => ({
         ...prevTime,
-        totalDuration: {
+        totalTime: {
           minute: Math.floor(audio.duration / 60),
           second: Math.floor(audio.duration % 60),
         },
@@ -37,13 +37,21 @@ const PlayerContextProvider = (props) => {
     };
 
     const setAudioTime = () => {
+      const currentSeconds = Math.floor(audio.currentTime);
+      const totalSeconds = Math.floor(audio.duration);
       setTime((prevTime) => ({
         ...prevTime,
         currentTime: {
-          minute: Math.floor(audio.currentTime / 60),
-          second: Math.floor(audio.currentTime % 60),
+          minute: Math.floor(currentSeconds / 60),
+          second: currentSeconds % 60,
         },
       }));
+
+      // Update seek bar
+      if (seekBarRef.current && seekBgRef.current) {
+        const progress = (currentSeconds / totalSeconds) * 100;
+        seekBarRef.current.style.width = `${progress}%`;
+      }
     };
 
     // Add event listeners
@@ -73,7 +81,11 @@ const PlayerContextProvider = (props) => {
       console.error("No audio source set");
     }
   };
-
+  const playWithId = async (id) => {
+    await setTrack(songsData[id]);
+    await audioRef.current.play();
+    setPlayStatus(true);
+  };
   const pause = () => {
     audioRef.current.pause();
     setPlayStatus(false);
@@ -82,6 +94,15 @@ const PlayerContextProvider = (props) => {
   const setNewTrack = (newTrack) => {
     setTrack(newTrack);
     setPlayStatus(false);
+  };
+
+  const handleSeek = (e) => {
+    if (seekBgRef.current) {
+      const seekPosition =
+        (e.nativeEvent.offsetX / seekBgRef.current.clientWidth) *
+        audioRef.current.duration;
+      audioRef.current.currentTime = seekPosition;
+    }
   };
 
   const ContextValue = {
@@ -96,6 +117,8 @@ const PlayerContextProvider = (props) => {
     setTime,
     play,
     pause,
+    handleSeek,
+    playWithId,
   };
 
   return (
