@@ -3,11 +3,21 @@ import { assets } from "../Assets/assets";
 import { PlayerContext } from "../context/PlayerContext";
 
 export default function Player() {
-  const { seekBarRef, seekBgRef, playStatus, play, pause, track, time } =
-    useContext(PlayerContext);
+  const {
+    seekBarRef,
+    seekBgRef,
+    playStatus,
+    play,
+    pause,
+    track,
+    time,
+    previous,
+    next,
+    seekSong,
+  } = useContext(PlayerContext);
 
   return (
-    <div className="h-[10%] bg-[#7f5539] flex justify-between items-center text-[#3d405b] rounded-3xl ml-2 mr-2 mb-2">
+    <div className="h-[10%] bg-[#fec89a] flex justify-between items-center text-black rounded-3xl ml-2 mr-2 mb-2">
       <div className="hidden lg:flex items-center gap-4">
         <img
           className="w-14 ml-4 rounded-xl shadow-lg"
@@ -15,7 +25,7 @@ export default function Player() {
           alt="song_image"
         />
         <div>
-          <p className="text-white font-bold">{track.name}</p>
+          <p className="text-black font-bold">{track.name}</p>
         </div>
       </div>
       <div className="flex flex-col items-center gap-1 m-auto">
@@ -26,6 +36,7 @@ export default function Player() {
             alt="shuffle_icon"
           />
           <img
+            onClick={previous}
             className="w-4 cursor-pointer"
             src={assets.prev_icon}
             alt="prev_icon"
@@ -46,6 +57,7 @@ export default function Player() {
             />
           )}
           <img
+            onClick={next}
             className="w-4 cursor-pointer"
             src={assets.next_icon}
             alt="next_icon"
@@ -57,12 +69,13 @@ export default function Player() {
           />
         </div>
         <div className="flex items-center gap-5">
-          <p className="text-white">
+          <p className="text-black">
             {time?.currentTime?.minute ?? "00"}:
             {time?.currentTime?.second ?? "00"}
           </p>
           <div
             ref={seekBgRef}
+            onClick={seekSong}
             className="w-[60vw] max-w-[500px] bg-[#3D405B] rounded-full cursor-pointer"
           >
             <hr
@@ -70,7 +83,7 @@ export default function Player() {
               className="h-1 border-none w-0 bg-white rounded-full"
             />
           </div>
-          <p className="text-white">
+          <p className="text-black">
             {time?.totalTime?.minute ?? "0"}:{time?.totalTime?.second ?? "00"}
           </p>
         </div>

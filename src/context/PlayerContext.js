@@ -96,6 +96,21 @@ const PlayerContextProvider = (props) => {
     setPlayStatus(false);
   };
 
+  const previous = async () => {
+    if (track.id > 0) {
+      await setTrack(songsData[track.id - 1]);
+      await audioRef.current.play();
+      setPlayStatus(true);
+    }
+  };
+  const next = async () => {
+    if (track.id < songsData.length - 1) {
+      await setTrack(songsData[track.id + 1]);
+      await audioRef.current.play();
+      setPlayStatus(true);
+    }
+  };
+
   const handleSeek = (e) => {
     if (seekBgRef.current) {
       const seekPosition =
@@ -105,6 +120,11 @@ const PlayerContextProvider = (props) => {
     }
   };
 
+  const seekSong = async (e) => {
+    audioRef.current.currentTime =
+      (e.nativeEvent.offsetX / seekBgRef.current.offsetWidth) *
+      audioRef.current.duration;
+  };
   const ContextValue = {
     audioRef,
     seekBarRef,
@@ -119,6 +139,9 @@ const PlayerContextProvider = (props) => {
     pause,
     handleSeek,
     playWithId,
+    previous,
+    next,
+    seekSong,
   };
 
   return (
