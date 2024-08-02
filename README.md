@@ -1,6 +1,6 @@
 # Wandify
 
-Wandify is a modern music streaming application built with React.js. Inspired by Spotify, Wandify aims to provide users with a seamless and intuitive music listening experience. With features like playlist creation, music search, Wandify is your go-to alternative for music streaming.
+Wandify is a modern music streaming application built with React.js. Inspired by Spotify, Wandify aims to provide users with a seamless and intuitive music listening experience. With features like playlist creation, Wandify is your go-to alternative for music streaming.
 
 ## Table of Contents
 
